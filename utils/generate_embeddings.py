@@ -17,14 +17,14 @@ class SentenceEmbeddings:
         
         
     def get_embedding(self, sentence):
-        """生成单个句子的embedding"""
+        """generate embedding of single sentence"""
         input_ids = self.tokenizer.encode(sentence, return_tensors="pt").to(self.device)
         with torch.no_grad():
             output = self.model(input_ids)
         return output[0][:, 0, :].cpu().numpy()
 
     def generate_embeddings(self, input_path, output_path, generate_size=1000):
-        """为输入文本中的每个句子生成embedding"""
+        """generate embedding for each sentence in the input text"""
         all_embeddings = []
         with open(input_path, 'r') as f:
             lines = f.readlines()
@@ -46,24 +46,13 @@ class SentenceEmbeddings:
         np.savetxt(output_path, all_embeddings, delimiter=" ")
 
 
-def main():
-   
-    intput_path ='Mark/SRTWM/train_data/train.jsonl'
-    output_path = 'Mark/SRTWM/train_data/train_embeddings-bge.txt'
+if __name__ == '__main__':
+    input_path = '../train_data/train.jsonl'
+    output_path = '../train_data/train_embeddings.txt'
     model_path = 'Mark/models/bge-reranker-large'
     size = 1000
 
-    # parser = argparse.ArgumentParser(description='Generate embeddings for sentences.')
-    # parser.add_argument('--input_path', type=str, required=True, default=intput_path, help='Input file path')
-    # parser.add_argument('--output_path', type=str, required=True, default=output_path,help='Output file path')
-    # parser.add_argument('--model_path', type=str, required=True, default=model_path, help='Path of the embedding model')
-    # parser.add_argument('--size', type=int, required=False, default=1000, help='Size of the train_data to generate embeddings for')
-    # args = parser.parse_args()
-
     sentence_embeddings = SentenceEmbeddings(model_path)
-    sentence_embeddings.generate_embeddings(intput_path, output_path, size)
+    sentence_embeddings.generate_embeddings(input_path, output_path, size)
 
-    print('===完成===')
-
-if __name__ == '__main__':
-    main()
+    print('===Completed===')

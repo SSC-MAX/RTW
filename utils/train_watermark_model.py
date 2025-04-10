@@ -83,20 +83,8 @@ def vector_transform(vec):
     return transformed_x
 
 def loss_fn(output_a, output_b, input_a, input_b, lambda1=0.1, lambda2=1, median_value=0.4, high_threshold=0.8, low_threshold=0.75):
-    '''
-    :param output_a: 嵌入a经模型变换后的输出
-    :param output_b: 嵌入b经模型变换后的输出
-    :param input_a: 嵌入a
-    :param input_b: 嵌入b
-    '''
-    # original_similarity = cosine_similarity(input_a, input_b)   # 计算嵌入之间的余弦相似度
-    # original_similarity = torch.tanh(20*(original_similarity - median_value))
-    # transformed_similarity = cosine_similarity(output_a, output_b)  # 计算模型输出之间的余弦相似度
     output_a_list = get_greenlist_ids(output_a)
     output_b_list = get_greenlist_ids(output_b)
-    # original_similarity = 0.01*torch.norm(input_a-input_b, p=2)
-    # transformed_similarity = 0.01*levenshtein_distance(output_a_list, output_b_list)
-    # print(f'type=>{type(output_a_list)}\nlen=>{len(output_a_list)}\n{output_a_list[0]}')
 
     original_similarity = torch.norm(input_a-input_b, p=2)
     transformed_similarity = levenshtein_distance(output_a_list, output_b_list)
@@ -108,7 +96,7 @@ def loss_fn(output_a, output_b, input_a, input_b, lambda1=0.1, lambda2=1, median
     else:
          weight = (original_similarity - low_threshold) / (high_threshold - low_threshold) * 2 - 1
 
-    original_loss = torch.abs(weight*(original_similarity - transformed_similarity)).mean()*0.01  # 语义一致性损失，即变化前后嵌入间余弦相似度的差值
+    original_loss = torch.abs(weight*(original_similarity - transformed_similarity)).mean()*0.01  # Semantic consistency loss
 
     mean_penalty = mean_penalty = row_col_mean_penalty(output_a) + row_col_mean_penalty(output_b)
     
@@ -131,8 +119,8 @@ class VectorDataset(Dataset):
 
 if __name__ == '__main__':
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    input_path = os.path.join(current_directory, '..', 'train_data', 'train_embeddings-bert_large.txt')
-    output_path = os.path.join(current_directory, '..', 'models', 'tau', 'transform_model-BERT-DISTANCE-CONDITION-0.75_0.8.pth')
+    input_path = os.path.join(current_directory, '..', 'train_data', 'train_embeddings.txt')
+    output_path = os.path.join(current_directory, '..', 'models', 'transform_model.pth')
     input_dim = 1024
 
     parser = argparse.ArgumentParser(description="Detect watermark in texts")
@@ -172,4 +160,4 @@ if __name__ == '__main__':
 
     os.makedirs(os.path.dirname(args.output_model), exist_ok=True)
     torch.save(model.state_dict(), args.output_model)
-    print('===模型训练完成===')
+    print('===completed===')
