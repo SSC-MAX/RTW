@@ -7,4 +7,4 @@ Run `utils/train_watermark_model.py` to train the model. `train_data` contains a
 
 # Watermark Embedding and Extraction
 Run `generate_watermark.py` to embed watermark.  
-Run `evaluation.py` to extract and calcualte F1 score and AUC.
+Run `evaluation.py` to calcualte F1 score and AUC.
