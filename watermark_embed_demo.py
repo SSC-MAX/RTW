@@ -56,9 +56,9 @@ class watermark_model:
         self.en_tag_white_list = set(
             ['MD', 'NN', 'NNS', 'UH', 'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'RP', 'RB', 'RBR', 'RBS', 'JJ', 'JJR',
              'JJS'])
-        self.embedding_model_path = 'bert-large-uncased'
-        self.roberta_large_mnli_path = 'roberta-large-mnli'
-        self.bert_base_cased_path = 'bert-base-cased'
+        self.embedding_model_path = 'google-bert/bert-large-uncased'
+        self.roberta_large_mnli_path = 'FacebookAI/roberta-large-mnli'
+        self.bert_base_cased_path = 'google-bert/bert-base-cased'
         self.tokenizer = BertTokenizer.from_pretrained(f'{self.bert_base_cased_path}', resume_download=True)
         self.model = BertForMaskedLM.from_pretrained(f'{self.bert_base_cased_path}', output_hidden_states=True,
                                                      resume_download=True).to(self.device)

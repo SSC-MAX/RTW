@@ -1,5 +1,4 @@
 import argparse
-import matplotlib.pyplot as plt
 
 from scipy import interpolate
 from sklearn.metrics import roc_auc_score, roc_curve, precision_recall_curve
@@ -59,14 +58,10 @@ def cal_f1(detect_data, water_value, ori_value, f1_file):
     f1_data = f'F1@FPR=0.05: {f1_at_fpr(y_true, y_scores, 0.05):.3f}\nF1@FPR=0.01: {f1_at_fpr(y_true, y_scores, 0.01):.3f}\nauc:{auc:.3f}'
     with open(f1_file, 'w', encoding='utf-8') as file:
         file.write(f1_data)
-    # print(sorted(hm_zscore))
-    # print(sorted(wm_zscore))
     return fpr, tpr, thresholds
 
 
 def main(args, data_size):
-    # hm_list = read_jsonl(args.hm_zscore)
-    # wm_list = read_jsonl(args.wm_zscore)
     import json
     with open(args.zscore, 'r', encoding="utf-8") as file:
         detect_data = json.load(file)
@@ -82,9 +77,8 @@ def main(args, data_size):
 
 if __name__ == "__main__":
     
-    file_name = '/root/result/REPEAT/delete/HC3-random-800-0.5.json'
-    f1_file = '/root/result/REPEAT/delete/HC3-random-800-0.5.txt'
-    compare_type = 'delete'
+    file_name = ''   # result ouput by RTW
+    f1_file = ''     # result of F1 and AUC
 
     data_size = len(json.load(open(file_name)))
     
@@ -95,7 +89,7 @@ if __name__ == "__main__":
     parser.add_argument("--roc_curve", type=str, default="1", help="ROC curve file")
     parser.add_argument('--data_size', type=int, required=False, help="A output json file of list of strings.",
                         default=data_size)
-    parser.add_argument('--compare_type', type=str, default=compare_type)
+    parser.add_argument('--compare_type', type=str, default='water')
     parser.add_argument('--f1_file', type=str, default=f1_file)
 
     args = parser.parse_args()

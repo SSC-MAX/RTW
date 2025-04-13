@@ -2,9 +2,8 @@ import numpy as np
 import json
 import torch
 import os
-from transformers import BertTokenizer, BertModel, AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModel
 from tqdm import tqdm
-import argparse
 
 
 class SentenceEmbeddings:
@@ -49,7 +48,7 @@ class SentenceEmbeddings:
 if __name__ == '__main__':
     input_path = '../train_data/train.jsonl'
     output_path = '../train_data/train_embeddings.txt'
-    model_path = 'Mark/models/bge-reranker-large'
+    model_path = 'google-bert/bert-large-uncased'
     size = 1000
 
     sentence_embeddings = SentenceEmbeddings(model_path)

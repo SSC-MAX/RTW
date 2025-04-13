@@ -53,9 +53,8 @@ def levenshtein_distance(list1, list2):
 def get_greenlist_ids(output):
     output = output.cpu()[0].detach().numpy()
     similarity_array = bias.scale_vector(output)
-    # print(f'similarity_arrary_type=>{type(similarity_array)}\n{similarity_array}')
     similarity_array = torch.from_numpy(-similarity_array)
-    indices = torch.nonzero(similarity_array > 0)   # 获取标记为1的位置
+    indices = torch.nonzero(similarity_array > 0)
     greenlist_ids = indices.view(-1).tolist()
     return greenlist_ids
 
