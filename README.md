@@ -9,5 +9,5 @@ Run `utils/train_watermark_model.py` to train the model. All trainning data can 
 `models/transform_model.pth` provides a trained model which was used in paper.
 
 # Watermark Embedding and Extraction
-Run `generate_watermark.py` to embed watermark.  
-Run `evaluation.py` to calcualte F1 score and AUC.
+`watermark_model.py` realizes the watermark model. 
+`generate_watermark_demo.py` provieds a demo to embed and extract watermark for single text.  

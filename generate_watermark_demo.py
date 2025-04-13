@@ -1,5 +1,5 @@
 from utils.preprocess_text import preprocess_txt
-from watermark_embed_demo import watermark_model as repeat_no_context_model_bert
+from watermark_model import watermark_model as repeat_no_context_model_bert
 
 
 def watermark_embed_demo(raw):
